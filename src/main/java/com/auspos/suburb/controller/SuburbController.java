@@ -32,7 +32,7 @@ public class SuburbController {
     }
 
     @PostMapping
-    public void getSuburbsByName(@Valid @RequestBody SuburbDto suburbDto, @PathVariable int version) {
+    public void createSuburb(@Valid @RequestBody SuburbDto suburbDto, @PathVariable int version) {
         log.info("Received request to create new suburb with name {}", suburbDto.getSuburbName());
         suburbService.createSuburb(suburbDto);
     }

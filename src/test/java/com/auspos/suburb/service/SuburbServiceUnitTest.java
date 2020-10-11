@@ -112,24 +112,24 @@ public class SuburbServiceUnitTest {
 
     @Test
     public void createSuburb_validData_shouldAddSuburb() {
-        when(suburbRepository.findBySuburbNameAndPostCode(anyString(), anyLong())).thenReturn(null);
+        when(suburbRepository.findBySuburbNameIgnoreCaseAndPostCode(anyString(), anyLong())).thenReturn(null);
 
         suburbService.createSuburb(SuburbDto.builder().suburbName("Williams Landing").postCode(3027L).state("Victoria").country("Australia").build());
 
-        verify(suburbRepository, times(1)).findBySuburbNameAndPostCode("Williams Landing", 3027);
+        verify(suburbRepository, times(1)).findBySuburbNameIgnoreCaseAndPostCode("Williams Landing", 3027);
         verify(suburbRepository, times(1)).save(any(Suburb.class));
 
     }
 
     @Test
     public void createSuburb_suburbAlreadyExists_shouldThrowException() {
-        when(suburbRepository.findBySuburbNameAndPostCode(anyString(), anyLong()))
+        when(suburbRepository.findBySuburbNameIgnoreCaseAndPostCode(anyString(), anyLong()))
                 .thenReturn(asList(builder().id(10).suburbName("Williams Landing").postCode(3027).state("Victoria").country("Australia").build()));
 
         SuburbDto suburbDto = SuburbDto.builder().suburbName("Williams Landing").postCode(3027L).state("Victoria").country("Australia").build();
         Assertions.assertThrows(DuplicateSuburbException.class, () -> suburbService.createSuburb(suburbDto));
 
-        verify(suburbRepository, times(1)).findBySuburbNameAndPostCode("Williams Landing", 3027);
+        verify(suburbRepository, times(1)).findBySuburbNameIgnoreCaseAndPostCode("Williams Landing", 3027);
         verify(suburbRepository, never()).save(any(Suburb.class));
     }
 

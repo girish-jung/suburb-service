@@ -20,6 +20,11 @@ public class SuburbService {
     private final SuburbRepository suburbRepository;
     private final SuburbDtoMapper suburbDtoMapper;
 
+    /**
+     * Fetch list of suburbs by <code>postCode</code>
+     * @param postCode
+     * @return a a list of {@link SuburbDto} matching the <code>postCode</code> or returns and empty list
+     */
     public List<SuburbDto> getSuburbsByPostCode(long postCode) {
         log.debug("Getting all suburbs by postCode {}", postCode);
         List<Suburb> suburbs = suburbRepository.findByPostCode(postCode);
@@ -33,6 +38,11 @@ public class SuburbService {
         return suburbDtoMapper.mapDomainToDto(suburbs);
     }
 
+    /**
+     * Fetch list of suburbs by <code>suburbName</code>
+     * @param suburbName
+     * @return a a list of {@link SuburbDto} matching the <code>suburbName</code> or returns and empty list
+     */
     public List<SuburbDto> getSuburbsBySuburbName(String suburbName) {
         log.debug("Getting all suburbs by postCode {}", suburbName);
         List<Suburb> suburbs = suburbRepository.findBySuburbNameIgnoreCase(suburbName);
@@ -46,9 +56,15 @@ public class SuburbService {
         return suburbDtoMapper.mapDomainToDto(suburbs);
     }
 
+    /**
+     * Creates a new suburb in the DB
+     * @param suburbDto
+     * @exception {@link DuplicateSuburbException} when a suburb exists with the same name and postcode
+     */
     public void createSuburb(SuburbDto suburbDto) {
-        List<Suburb> suburbs = suburbRepository.findBySuburbNameAndPostCode(suburbDto.getSuburbName(), suburbDto.getPostCode());
+        List<Suburb> suburbs = suburbRepository.findBySuburbNameIgnoreCaseAndPostCode(suburbDto.getSuburbName(), suburbDto.getPostCode());
 
+        // Throw exception if a suburb already exists with the same name and postcode.
         if (!CollectionUtils.isEmpty(suburbs)) {
             String msg = String.format("A suburb already present with name: %s and postCode: %s",  suburbDto.getSuburbName(), suburbDto.getPostCode());
             log.error(msg);
@@ -60,6 +76,5 @@ public class SuburbService {
 
         log.info("Created a suburb with name {} and postcode {}", suburbDto.getSuburbName(), suburbDto.getPostCode());
     }
-
 
 }

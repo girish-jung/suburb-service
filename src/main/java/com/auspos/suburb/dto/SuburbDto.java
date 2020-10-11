@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 @Data
 @Builder
@@ -18,15 +16,19 @@ public class SuburbDto {
     private Long id;
 
     @NotBlank
+    @Pattern(regexp = "^[a-zA-Z\\s]{2,50}$")
     private String suburbName;
 
     @NotNull
+    @Max(999999)
     private Long postCode;
 
     @NotBlank
+    @Pattern(regexp = "^[a-zA-Z\\s]{2,50}$")
     private String state;
 
     @NotBlank
+    @Pattern(regexp = "^[a-zA-Z\\s]{2,50}$")
     private String country;
 
 }

@@ -1,6 +1,7 @@
 package com.auspos.suburb.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,8 +13,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    private AuthenticationEntryPoint authEntryPoint;
+    @Value("${suburb.service.app.username}")
+    private String username;
+
+    @Value("${suburb.service.app.password}")
+    private String password;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -23,15 +27,14 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().fullyAuthenticated()
                 .and().httpBasic()
                 .and().csrf().disable();
-//                .authenticationEntryPoint(authEntryPoint);
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("admin")
+                .withUser(username)
 //                .password("adminPassword")
-                .password("$2a$04$18zGmcUgSzAQhKfex.mnY..2tx1zPK1lMjXhwiqvlMVwsjubXE6iS")
+                .password(password)
                 .roles("ADMIN");
     }
 }

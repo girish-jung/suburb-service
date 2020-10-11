@@ -1,8 +1,10 @@
+logging.level.org.springframework.web: INFO
+logging.level.org.hibernate: ERROR
+logging.level.sql: ERROR
+logging.level.root: INFO
+
 server:
   port:8080
-#  servlet:
-#    context-path: /suburb-service
-
 
 spring:
   datasource:
@@ -18,3 +20,8 @@ spring:
       ddl-auto: create-drop
 
     properties.hibernate.enable_lazy_load_no_tans: true
+
+suburb.service.app:
+  username: admin
+#  password: adminPassword
+  password: $2y$10$9BqFgYOBOn6BA/yhzlX8d.r/B/exyQpCL1qeooXJ4XywbIXoX1GHq
