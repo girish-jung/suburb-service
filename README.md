@@ -1,11 +1,44 @@
 # suburb-service
 
 This MS provides functionality for suburb information. It exposes following API's:
-1. Get Suburbs by post code
-2. Get Suburbs by name
-3. Add a new suburb
+1. Add a new suburb
+2. Get Suburbs by post code
+3. Get Suburbs by nam
 
-## Get Suburbs by post code
+## API 1: Create a new suburb
+This is a secured enpoint that creates a new suburb in the System. <br>
+<b>Http Method:</b> POST <br>
+<b>Request Path:</b> /v1/suburb/{postCode} <br>
+<b>Headers</b>: Basic Authentication headers <br>
+<b>Response:</b> No body <br>
+<b>Response Code:</b> 200 <br> <br>
+Sample Request Body
+<pre class-"prettyprint">
+{
+	"suburbName": "Cremorne",
+	"postCode": "2090",
+	"state": "NSW",
+	"country": "Australia" 
+}
+</pre>
+
+Sample curl command
+<pre class-"prettyprint">
+curl -X POST \
+  http://localhost:8080/v1/suburb \
+  -H 'authorization: Basic XXXXXXXXXXXXXXXXXXXX' \
+  -H 'content-type: application/json' \
+  -d '{
+	"suburbName": "Cremorne",
+	"postCode": "2090",
+	"state": "NSW",
+	"country": "Australia" 
+}'
+
+Note - Please contact me for the Authorisation headers
+</pre>
+
+## API 2: Get Suburbs by post code
 This is a public endpoint that returns a list of suburbs matching the post code.
 
 <b>Http Method:</b> GET <br>
@@ -37,12 +70,11 @@ Sample curl command
 curl -X GET http://localhost:8080/v1/suburb/postcode/2090
 </pre>
 
-## Get Suburbs by name
+## API 3: Get Suburbs by name
 This is a public endpoint that returns a list of suburbs matching the suburb name.
 
 <b>Http Method:</b> GET <br>
-<b>Request Path:</b> /v1/suburb/postcode/{postCode} <br>
-
+<b>Request Path:</b> /v1/suburb/name/{postCode} <br>
 <b>Response:</b> A list of suburbs matching the criteria<br>
 <b>Response Code:</b> 200 <br><br>
 Sample Response
@@ -71,53 +103,19 @@ curl -X GET http://localhost:8080/v1/suburb/name/Cremorne
 </pre>
 
 
-## Create a new suburb
-This is a secured enpoint that creates a new suburb in the System.
-<b>Http Method:</b> GET <br>
-<b>Request Path:</b> /v1/suburb/postcode/{postCode} <br>
-<b>Headers</b>: Baisc Authentication headers <br>
-<b>Response:</b> A list of suburbs mathching the criteria.<br>
-<b>Response Code:</b> 200 <br> <br>
-Sample Request Body
-<pre class-"prettyprint">
-{
-	"suburbName": "Cremorne",
-	"postCode": "2090",
-	"state": "NSW",
-	"country": "Australia" 
-}
-</pre>
-
-Sample curl command
-<pre class-"prettyprint">
-curl -X POST \
-  http://localhost:8080/v1/suburb \
-  -H 'authorization: Basic XXXXXXXXXXXXXXXXXXXX' \
-  -H 'content-type: application/json' \
-  -d '{
-	"suburbName": "Cremorne",
-	"postCode": "2090",
-	"state": "NSW",
-	"country": "Australia" 
-}'
-
-Note - Please contact me for the Authorisation headers
-</pre>
-
-
 ## Development and Build Guide
-The application uses an in memory SQL database - HSQL v2.5.1 for persistence of the suburbs. At the start of the 
-application there are no suburbs in the DB. Please add a few suburbs using the post api mentioned above. 
-Since it is an in memory DB, all data will be lost once the application is shutdown.
-Feel free to allocate inital and max heap size to the application depending upon the data you want to persist.
+The application uses an in-memory SQL database - HSQL v2.5.1 for persistence of the suburbs. At the start of the 
+application there are no suburbs in the DB. Please add a few suburbs using the post api (API 1) mentioned above. 
+Since it is an in-memory DB, all data will be lost once the application is shutdown.
+Feel free to allocate initial and max heap size to the application depending upon the data you want to persist.
 
 ### Prerequisites
-1. Java 8 or higher
+1. Java 8 or higher (the development and testing of the application has been done on Java 11 and Windows 7)
 2. Gradle 5.6.4 
 
 ### Code Build
 It is not mandatory to have a local installation of Gradle. There is a gradle wrapper committed in the repository that
-enable us to build the code without have to install gradle locally on our system. Use below command to build the code
+enable us to build the code without have to install gradle locally on our system. Use below command to build the code.
 
 <b>Windows:</b> gradlew clean build <br>
 <b>Linux/MacOs:</b> ./gradlew clean build <br>
