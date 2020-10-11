@@ -107,6 +107,7 @@ curl -X GET http://localhost:8080/v1/suburb/name/Cremorne
 The application uses an in-memory SQL database - HSQL v2.5.1 for persistence of the suburbs. At the start of the 
 application there are no suburbs in the DB. Please add a few suburbs using the post api (API 1) mentioned above. 
 Since it is an in-memory DB, all data will be lost once the application is shutdown.
+
 Feel free to allocate initial and max heap size to the application depending upon the data you want to persist.
 
 ### Prerequisites
@@ -131,5 +132,11 @@ root directory
 1. Go to the location /build/libs/ under the root directory
 2. Run following command to start the application <br>
 <b>java -jar suburb-service-1.0.0-SNAPSHOT.jar </b>
+
+The application also has spring boot actuators integration to check the health of the application. Use below command to 
+check the application health: 
+
+<b>curl -X GET http://localhost:8080/actuator/health </b>
+
 
 
